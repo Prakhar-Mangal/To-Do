@@ -1,0 +1,79 @@
+{% extends 'todo_list/base.html' %}
+
+{% block content %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <center> <strong>{{message}}</strong></center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+{% endfor %}
+{% endif %}
+<table class="table table-striped bg-light">
+  <thead class="bg-warning">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Task</th>
+      <th scope="col">Done/UnDone</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+
+{% if all_items %}
+  <tbody>
+      {% for things in all_items %}
+
+      <div class="modal fade" id="example{{things.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" ><a style="color: floralwhite;" href="{% url 'delete' things.id %}">Delete</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      {% if things.completed %}
+      <tr class="bg-success">
+      <th scope="row">{{forloop.counter}}</th>
+      <td><a href="{% url 'edit' things.id %}">{{things.item}}</a></td>
+      <td><a href="{% url 'undone' things.id %}">UnDone</a></td>
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#example{{things.id}}">
+          Delete
+        </button></td>
+    </tr>
+    {% else%}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td><a href="{% url 'edit' things.id %}">{{things.item}}</a></td>
+      <td><a href="{% url 'done' things.id %}">Done</a></td>
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#example{{things.id}}">
+          Delete
+        </button></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+{% endif %}
+</table>
+
+<button type="button" onclick="window.location.href = 'logout';" class="btn btn-danger btn-lg btn-block">Logout</button>
+ 
+
+
+{% endblock %}

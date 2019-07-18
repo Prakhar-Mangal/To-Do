@@ -1,0 +1,14 @@
+{% extends 'todo_list/base.html' %}
+
+{% block content %}
+
+<form class="form-inline" method="POST">
+        {% csrf_token %}
+      <input class="form-control mr-sm-2" name="item" type="search" value="{{item.item}}" placeholder="{{item.item}}" aria-label="Search" required>
+      <input type="hidden" value="{{item.completed}}" name="completed" >
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Edit Task</button>
+    </form>
+
+ 
+
+{% endblock %}
